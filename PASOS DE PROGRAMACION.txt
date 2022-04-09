@@ -1,0 +1,280 @@
+
+ ===============================================================================================================================================
+ PASO 1:
+
+  > php artisan make:model Categoria -m     			<--CREAR MODELO PARA TABLA CATEGORIA MÁS SU MIGRACIÓN
+  > php artisan make:model Producto -m     			<--CREAR MODELO PARA TABLA PRODUCTOS MÁS SU MIGRACIÓN
+ ===============================================================================================================================================
+ PASO 2:
+
+  > php artisan make:controller CategoriaController --resource     <--CREAR CONTROLADOR PARA TABLA CATEGORIA MÁS SU MIGRACIÓN
+  > php artisan make:controller ProductoController --resource     <--CREAR CONTROLADOR PARA TABLA PRODUCTOS MÁS SU MIGRACIÓN
+  
+ ===============================================================================================================================================
+ PASO 3: 
+   -----------------------------------------------------------------------------------------------------------------------------------------------
+   - ESTRUCTURAMOS LAS MIGRACIONES DE LA TABLA CATEGORIA Y PRODUCTOS
+   -----------------------------------------------------------------------------------------------------------------------------------------------
+    public function up()
+    {
+        Schema::create('categorias', function (Blueprint $table) {
+            $table->id();
+            $table->string('nombre',30);
+        });
+    }
+
+    public function up()
+    {
+        Schema::create('productos', function (Blueprint $table) {
+            $table->id();
+            $table->string('descripcion',20);
+            $table->float('precio',8,2);
+            // Relacionando tablas capturando llave primaria de categoria
+            $table->unsignedBigInteger('id_categoria');
+            $table->foreign('id_categoria')->references('id')->on('categorias');
+        });
+    }
+    
+    FUENTE:https://laravel.com/docs/7.x/migrations
+ ===============================================================================================================================================
+ PASO 4: 
+
+   - CREAMOS LA BASE DE DATOS "dbcrudlaravel7"
+   > php artisan migrate			<--EFECTUAMOS LA MIGRACION
+
+ ===============================================================================================================================================
+ PASO 5: 
+   -----------------------------------------------------------------------------------------------------------------------------------------------
+   - ESTRUCTURAMOS LOS MODELOS DE LA TABLA CATEGORIA Y PRODUCTOS CON SUS RESPECTIVAS RELACIONES:
+   -----------------------------------------------------------------------------------------------------------------------------------------------
+   
+    class Categoria extends Model
+    {
+       protected $fillable=['nombre'];
+       public $timestamps=false;
+       // One To Many -Una categoria puede tener uno o muchos productos
+       public function productos()
+       {
+         return $this->hasMany('App\Producto');
+       }
+    }
+
+    class Producto extends Model
+    {
+        protected $fillable=['descricion','precio','id_categoria'];
+        public $timestamps = false;
+        // RELACION DE UNO A MUCHOS
+        public function categoria()
+        {
+            return $this->belongsTo('App\Categoria');
+        }
+    }
+   
+  FUENTE:https://laravel.com/docs/7.x/eloquent-relationships
+
+ ===============================================================================================================================================
+ PASO 6: 
+  
+  - MODELOS QUE SE USARAN EN EL CONTROLADOR "CATEGORIACONTROLLER":
+
+	use App\Categoria;
+
+ 
+ ===============================================================================================================================================
+ PASO 7: 
+   -----------------------------------------------------------------------------------------------------------------------------------------------
+   - PROGRAMAMOS TODAS LAS FUNCIONES DEL CONTROLADOR "CATEGORIACONTROLLER":
+   -----------------------------------------------------------------------------------------------------------------------------------------------
+    
+    public function index(Request $request)
+    {
+        $criterio = $request->criterio; //id o nombre
+        $buscar = $request->buscar;
+        if($buscar == ''){
+            $categorias = Categoria::all();
+        }else{
+            $categorias = Categoria::where($criterio,'like','%'.$buscar.'%')->get();
+        }
+        return view('categorias.principal',compact('categorias'));
+    }
+   public function store(Request $request)
+    {
+        $categorias = new Categoria();
+        $categorias->nombre = $request->nombre;
+        $categorias->save();
+        return back()->with('agregar','Se ha registrado satisfatoriamente');
+    }
+     public function edit($id)
+    {
+        $categoria = Categoria::findOrFail($id);
+        $categorias = Categoria::all();
+        return view('categorias.principal',compact('categorias','categoria'));
+    }
+    public function update(Request $request, $id)
+    {
+        $categoria = Categoria::findOrFail($request->id);
+        $categoria->nombre = $request->nombre;
+        $categoria->save();
+        $mensaje = 'Datos actualizados correctamente';
+        $categorias = Categoria::all();
+        return view('categorias.principal',compact('categorias','mensaje'));
+    }
+    public function destroy($id)
+    {
+        $categoria = Categoria::findOrFail($id);
+        $categoria->delete();
+        return back()->with('delete','Registro eliminado correctamente');
+    }
+
+ ===============================================================================================================================================
+ PASO 8: 
+  
+  - MODELOS QUE SE USARAN EN EL CONTROLADOR "PRODUCTOCONTROLLER":
+
+	use App\Producto;
+	use App\Categoria;
+
+ ===============================================================================================================================================
+ PASO 9: 
+   -----------------------------------------------------------------------------------------------------------------------------------------------
+   - PROGRAMAMOS TODAS LAS FUNCIONES DEL CONTROLADOR "PRODUCTOCONTROLLER":
+   -----------------------------------------------------------------------------------------------------------------------------------------------
+    
+
+
+
+ ===============================================================================================================================================
+ PASO 10: 
+   -----------------------------------------------------------------------------------------------------------------------------------------------
+   - CREAMOS LA VISTA DE "FRMCATEGORIA.BLADE.PHP" Y ESTRUCTURAMOS LO SGTE:
+   -----------------------------------------------------------------------------------------------------------------------------------------------
+ 
+ @if (!empty($categoria->id))
+    {{-- FORMULARIO PARA EDITAR --}}
+        <form action="/modificar/{{$categoria->id}}" method = "POST">
+            @method('PUT')
+            @csrf
+            <table>
+                <tr>
+                    <td>Nombre</td>
+                    <td><input type="text" id="nombre" name="nombre" value="{{$categoria->nombre}}" required></td>
+                </tr>
+                <tr>
+                    <td colspan="2"><center><br><button type="submit">Modificar</button></center></td>
+                </tr>
+            </table>
+        </form>
+        @if (session('mensaje'))
+            <p>{{session('mensaje')}}</p>
+        @endif
+    @else
+    {{-- FORMULARIO PARA AGREGAR --}}
+        <form action="/registrar" method = "POST">
+            @csrf
+            <table>
+                <tr>
+                    <td>Nombre</td>
+                    <td><input type="text" id="nombre" name="nombre" required></td>
+                </tr>
+                <tr>
+                    <td colspan="2"><center><br><button type="submit">Guardar</button></center></td>
+                </tr>
+            </table>
+        </form>
+        @if (session('agregar'))
+            <p>{{session('agregar')}}</p>
+         @else
+           <br>
+        @endif
+    @endif
+
+ ===============================================================================================================================================
+ PASO 11: 
+   -----------------------------------------------------------------------------------------------------------------------------------------------
+   - ESTRUCTURAMOS LA VISTA DE "CATEGORIA.PRINCIPAL":
+   -----------------------------------------------------------------------------------------------------------------------------------------------
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>frmCategoria</title>
+    </head>
+    <body>
+    <center>
+        <h3>Registro de categorias</h3>
+        <br>
+        @include('categorias.frmcategoria')
+    
+        <form action="/" method="POST">
+            @method('GET')
+            @csrf
+            Buscar por:
+            <select name="criterio" id="criterio" required>
+                <option value="">Seleccione</option>
+                <option value="id">Id</option>
+                <option value="nombre">nombre</option>
+            </select>
+            <input type="text"id="buscar" name="buscar">
+            <button type="submit">Buscar</button>
+        </form>
+        <br>
+        <table border="1">
+            <caption>Categorias</caption>
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nombre</th>
+                <th colspan="2">Acciones</th>
+            </tr>
+            </thead>
+            <tbody>
+                @foreach ($categorias as $item)
+                <tr>
+                    <td>{{$item->id}}</td>
+                    <td>{{$item->nombre}}</td>
+                    <td><a href="/editar/{{$item->id}}">Editar</a></td>
+                    <td>
+                    <form action="/eliminar/{{$item->id}}" method="POST">
+                        @method('DELETE')
+                        @csrf
+                        <button type="submit">Eliminar</button>
+                    </form>
+                    </td>
+                </tr>
+                @endforeach
+            </tbody>
+            <tfoot>
+            <tr>
+                <th>Id</th>
+                <th>Nombre</th>
+                <th colspan="2">Acciones</th>
+            </tr>
+            </tfoot>
+        </table>
+        @if (session('delete'))
+        <p>{{session('delete')}}</p>
+        @endif
+        </center>
+    </body>
+    </html>
+
+ ===============================================================================================================================================
+ PASO 11: 
+   -----------------------------------------------------------------------------------------------------------------------------------------------
+   - ESTABLECEMOS LA RUTAS NECESARIAS PARA LOS MODULO "CATEGORIA" Y "PRODUCTOS":
+   -----------------------------------------------------------------------------------------------------------------------------------------------
+  
+	Route::get('/','CategoriaController@index');
+	Route::post('/registrar','CategoriaController@store');
+	Route::get('/editar/{id}','CategoriaController@edit');
+	Route::put('/modificar/{id}','CategoriaController@update');
+	Route::delete('/eliminar/{id}','CategoriaController@destroy');
+
+
+
+
+
+
+

@@ -1,0 +1,23 @@
+/* table {
+    border: #b2b2b2 1px solid;
+  }
+  td, th {
+    border: black 1px solid;
+  } */
+
+  .contenedor {
+    display: flex;
+    justify-content: center;
+  }
+  .hijo{
+    padding: 12px;
+    border: 2px solid #000000;
+    margin: 10px;
+    border-color: dimgrey;
+  }
+  .hijo p{
+   text-align: center;
+  }
+  h2{
+   text-align: center;
+  }
