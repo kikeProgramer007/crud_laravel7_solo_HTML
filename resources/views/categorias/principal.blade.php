@@ -10,22 +10,22 @@
 <body>
   <div class="contenedor">
     <div class="hijo">
-    <a href="/">Categorias</a>
-    <a href="/productos">Productos</a>
+      <a href="{{url('/')}}">Categorias</a>
+      <a href="{{url('/productos')}}">Productos</a>
     <h2>FORMULARIO</h2>
     <h3>Registro de Categorias</h3>
     @include('categorias.frmcategoria')
     <br>
-    <form action="/" method="POST">
+    <form action="{{url('/')}}" method="GET">
         @method('GET')
         @csrf
         Buscar por:
-        <select name="criterio" id="criterio" required>
-            <option value="">Seleccione</option>
+        <select name="criterio" id="criterio" onchange="actualizar(this)">
+            <option value="" disabled selected>Columna</option>
             <option value="id">Id</option>
             <option value="nombre">nombre</option>
         </select>
-        <input type="text"id="buscar" name="buscar">
+        <input type="text"id="buscar" name="buscar" disabled>
         <button type="submit">Buscar</button>
     </form>
     @if (isset($mensaje))
@@ -48,20 +48,24 @@
           </tr>
         </thead>
         <tbody>
-            @foreach ($categorias as $item)
+            @forelse ($categorias as $item)
               <tr>
                 <td>{{$item->id}}</td>
                 <td>{{$item->nombre}}</td>
-                <td><a href="/editar/{{$item->id}}">Editar</a></td>
+                <td><a href="{{url('/editar',[$item->id])}}">Editar</a></td>
                 <td>
-                  <form action="/eliminar/{{$item->id}}" method="POST">
+                  <form action="{{url('/eliminar',[$item->id])}}" method="POST">
                     @method('DELETE')
                     @csrf
                     <button type="submit">Eliminar</button>
                   </form>
                 </td>
               </tr>
-            @endforeach
+              @empty
+              <tr>
+                <td colspan="4">No se encontraron registros.</td>
+              </tr>
+            @endforelse
         </tbody>
         <tfoot>
           <tr>
@@ -77,5 +81,16 @@
       @endif
     </div>
   </div>
+
+  <script>
+    function actualizar(opcion){
+      if ( opcion.value == '') {
+        document.getElementById('buscar').disabled=true;
+      }else{
+        document.getElementById('buscar').disabled=false;
+      }
+    }
+  </script>
+
 </body>
 </html>

@@ -1,61 +1,52 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+## POS con Laravel open source
+Pequeño punto de venta con Laravel 7.
+![Bienvenida al sistema de ventas escrito en Laravel](https://parzibyte.me/blog/wp-content/uploads/2020/03/Inicio-Punto-de-venta-con-Laravel-usuarios-y-clientes.png)
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
-</p>
+## Características
 
-## About Laravel
+-   Utiliza Laravel en su última versión (a la fecha de escribir esto)
+-   Bootstrap es usado para los estilos
+-   Iconos de FontAwesome
+-   Sistema totalmente responsivo, es decir, funciona en móviles, tabletas y computadoras
+-   Control de inventario con precio de venta, precio de compra, utilidad, existencia, etcétera
+-   Opción para realizar venta, agregando productos
+-   Comprobación de existencia de inventario al vender
+-   Resta de existencia al vender
+-   Impresión de tickets de venta en impresora térmica
+-   Reporte de ventas
+-   Inicio de sesión y registro de usuarios
+-   App para Android
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Tutorial
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+[Ver tutorial en mi blog](https://parzibyte.me/blog/2020/03/06/sistema-ventas-laravel-bootstrap-mysql-open-source/)
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+[Parte 2 con clientes y usuarios](https://parzibyte.me/blog/2020/03/10/laravel-pos-clientes-usuarios/)
 
-## Learning Laravel
+![Ticket de venta](https://parzibyte.me/blog/wp-content/uploads/2020/03/Ticket-de-venta-impreso-desde-PDV-con-Laravel.jpg)
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+**By Parzibyte**
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## Descargar app
+He creado una app que consume la API de este sistema. 
+- Usuarios de Android: https://github.com/parzibyte/sistema_ventas_laravel/raw/master/PuntoDeVenta1.0.apk
+- Usuarios de iOS: Conseguir un dispositivo con Android y descargar la versión para Android
+  
 
-## Laravel Sponsors
+## Créditos de las imágenes
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+  
 
-### Premium Partners
+**Productos:** Icons made by [Icongeek26](https://www.flaticon.com/authors/icongeek26  "Icongeek26") from [www.flaticon.com](https://www.flaticon.com/  "Flaticon")
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[OP.GG](https://op.gg)**
+**Vender:** Icons made by [Freepik](https://www.flaticon.com/authors/freepik  "Freepik") from [www.flaticon.com](https://www.flaticon.com/  "Flaticon")
 
-## Contributing
+**Ventas:** Icons made by [Eucalyp](https://www.flaticon.com/authors/eucalyp  "Eucalyp") from [www.flaticon.com](https://www.flaticon.com/  "Flaticon")
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+**Soporte:** Icons made by [dDara](https://www.flaticon.com/authors/ddara  "dDara") from [www.flaticon.com](https://www.flaticon.com/  "Flaticon")
 
-## Code of Conduct
+**Acerca de:** Icons made by [inipagistudio](https://www.flaticon.com/authors/inipagistudio  "inipagistudio") from [www.flaticon.com](https://www.flaticon.com/  "Flaticon")
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+**Usuarios:** Icons made by [Freepik](https://www.flaticon.com/authors/freepik  "Freepik") from [www.flaticon.com](https://www.flaticon.com/  "Flaticon")
 
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+**Clientes:** Icons made by [Freepik](https://www.flaticon.com/authors/freepik "Freepik") from [www.flaticon.com](https://www.flaticon.com/ "Flaticon")

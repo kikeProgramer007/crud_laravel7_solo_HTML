@@ -14,14 +14,19 @@ class ProductoController extends Controller
      */
     public function index(Request $request)
     {
-        $criterio = $request->criterio; //id o descripcion
+        $criterio = $request->criterio; //id o descripcion o categoria
         $buscar = $request->buscar;
         $categorias= Categoria::all();
-        if($buscar == ''){
+        if($buscar == '' || $criterio==''){
             $productos = Producto::join('categorias','productos.id_categoria','=','categorias.id')
             ->select('productos.id','productos.descripcion','productos.precio','productos.id_categoria','categorias.nombre as categoria')->get();
         }else{
            //CONSULTA ENTRE DOS TABLAS
+            // if($criterio=='id_categoria'){
+            //     $buscar = Categoria::where('nombre','like','%'.$buscar.'%')->get()->first();
+            //     $buscar = $buscar->id;
+            // }
+
             $productos = Producto::join('categorias','productos.id_categoria','=','categorias.id')
             ->select('productos.id','productos.descripcion','productos.precio','productos.id_categoria','categorias.nombre as categoria')
             ->where('productos.'.$criterio,'like','%'.$buscar.'%')
@@ -38,6 +43,11 @@ class ProductoController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'descripcion' => 'required|min:3|max:20',
+            'precio' =>'required|numeric',
+            'id_categoria' => 'required|string'
+        ]);
         $productos = new Producto();
         $productos->descripcion = $request->descripcion;
         $productos->precio = $request->precio;
@@ -70,6 +80,12 @@ class ProductoController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'descripcion' => 'required|min:3|max:20',
+            'precio' =>'required|numeric',
+            'id_categoria' => 'required|string'
+        ]);
+        
         $producto = Producto::findOrFail($request->id);
         $producto->descripcion = $request->descripcion;
         $producto->precio = $request->precio;

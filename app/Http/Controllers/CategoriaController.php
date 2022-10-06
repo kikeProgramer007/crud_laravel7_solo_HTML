@@ -16,7 +16,7 @@ class CategoriaController extends Controller
     {
         $criterio = $request->criterio; //id o nombre
         $buscar = $request->buscar;
-        if($buscar == ''){
+        if($buscar == '' || $criterio==''){
             $categorias = Categoria::all();
         }else{
             $categorias = Categoria::where($criterio,'like','%'.$buscar.'%')->get();
@@ -34,6 +34,10 @@ class CategoriaController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'nombre'=>'required|min:3|max:15',
+        ]);
+
         $categorias = new Categoria();
         $categorias->nombre = $request->nombre;
         $categorias->save();
@@ -63,6 +67,12 @@ class CategoriaController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'nombre'=>'required|min:3|max:15',
+        ],[
+            'nombre.required' =>'El :attribute es requerido'
+        ]);
+
         $categoria = Categoria::findOrFail($request->id);
         $categoria->nombre = $request->nombre;
         $categoria->save();
