@@ -16,7 +16,7 @@
     <h3>Registro de Categorias</h3>
     @include('categorias.frmcategoria')
     <br>
-    <form action="{{url('/')}}" method="GET">
+    <form action="{{url('/categoria')}}" method="POST">
         @method('GET')
         @csrf
         Buscar por:

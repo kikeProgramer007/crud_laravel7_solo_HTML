@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\Route;
 
 // RUTAS DE CATEGORIAS
 Route::get('/','CategoriaController@index');
+Route::get('/categoria','CategoriaController@index');
 Route::post('/registrar','CategoriaController@store');
 Route::get('/editar/{id}','CategoriaController@edit');
 Route::put('/modificar/{id}','CategoriaController@update');
