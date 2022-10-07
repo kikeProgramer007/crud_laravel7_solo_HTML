@@ -18,8 +18,9 @@ class CreateProductosTable extends Migration
             $table->string('descripcion',20);
             $table->float('precio',8,2);
             // Relacionando tablas capturando llave primaria de categoria
-            $table->unsignedBigInteger('id_categoria');
-            $table->foreign('id_categoria')->references('id')->on('categorias');
+            // $table->unsignedBigInteger('id_categoria');
+            // $table->foreign('id_categoria')->references('id')->on('categorias');
+            $table->foreignId('id_categoria')->nullable()->constrained('categorias')->cascadeOnUpdate()->cascadeOnDelete();
         });
     }
 
